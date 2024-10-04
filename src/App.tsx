@@ -13,6 +13,7 @@ import {
   retrieveChunkedData,
   storeWithChunking,
 } from "./lib/cloudStorageUtil";
+import BlinkComp from "./Blinks/BlinkComp.tsx";
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -167,6 +168,7 @@ const App: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <BlinkComp propActionApiUrl="https://score.sendarcade.fun/api/action"/>
       <div className="header">
         <Button variant={"link"}>
           <a href="https://usecapsule.com" target="_blank">Capsule</a>
