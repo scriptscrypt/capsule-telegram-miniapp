@@ -14,5 +14,5 @@ export default defineConfig({
       },
     }),
   ],
-  base: "/capsule-telegram-miniapp/",
+  // base: "/capsule-telegram-miniapp/",
 });
