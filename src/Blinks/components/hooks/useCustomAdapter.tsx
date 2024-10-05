@@ -1,3 +1,5 @@
+// Just for testing on Prod :
+// @ts-nocheck
 import { ActionAdapterMetadata, ActionContext } from "@dialectlabs/blinks";
 import capsuleClient from "../../../lib/capsuleClient";
 import useCustomCapsule from "./useCustomCapsuleVars";
