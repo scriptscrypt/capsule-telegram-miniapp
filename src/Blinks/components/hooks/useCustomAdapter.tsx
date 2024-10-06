@@ -3,6 +3,7 @@
 import { ActionAdapterMetadata, ActionContext } from "@dialectlabs/blinks";
 import capsuleClient from "../../../lib/capsuleClient";
 import useCustomCapsule from "./useCustomCapsuleVars";
+import { LogFunction } from "../../../lib/cloudStorageUtil";
 
 // interface UseCustomActionOptions {
 //   url: string | URL;
@@ -12,7 +13,15 @@ import useCustomCapsule from "./useCustomCapsuleVars";
 // }
 
 function useCustomAdapter() {
-  const { walletId, address } = useCustomCapsule();
+  const { walletId, address, setLogs } = useCustomCapsule();
+
+  const log: LogFunction = (message, type) => {
+    setLogs((prevLogs) => [...prevLogs, { message, type }]);
+  };
+
+  const handleError: ErrorHandler = (errorMessage) =>
+    log(errorMessage, "error");
+
   // Types: interface
   interface CustomCapsuleActionAdapter {
     metadata: ActionAdapterMetadata;
@@ -57,7 +66,8 @@ function useCustomAdapter() {
 
       // Return the connected address or null if connection fails
       // For the demo, I'm using the address since initializeApp() connects and creates a wallet
-      return address || null;
+      log(`${address} - connected`, "success");
+      return address;
     },
     signTransaction: async (
       tx: string,
@@ -65,6 +75,7 @@ function useCustomAdapter() {
     ): Promise<{ signature: string } | { error: string }> => {
       try {
         //TODO : Implement transaction signing logic here
+        log(`Sign Tx method called`);
 
         const constructedSig = await capsuleClient?.sendTransaction(
           walletId || "",
@@ -84,6 +95,7 @@ function useCustomAdapter() {
       context: ActionContext
     ): Promise<void> => {
       //TODO : Implement transaction confirmation logic here
+      log(`Confirm Tx method called`);
     },
     signMessage: async (
       // data: string | SignMessageData$1,
@@ -93,6 +105,7 @@ function useCustomAdapter() {
       try {
         //TODO :  Implement message signing logic here
 
+        log(`SignMessage method called`);
         const signature = ""; // Replace with actual signature
         return { signature };
       } catch (error) {
